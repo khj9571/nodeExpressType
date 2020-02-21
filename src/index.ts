@@ -1,5 +1,12 @@
 import express from 'express';
+import { json, raw, text, urlencoded } from 'body-parser'; /** post reqest body 파싱용 */
+
 const app = express();
+
+var cors = require('cors')
+
+app.use(json());
+app.use(cors());
 
 /** 전체 인터셉터 */
 app.use(function(req, res, next) {
@@ -13,12 +20,12 @@ app.get('/', (req: express.Request, res: express.Response) => {
   res.send('Hello World!');
 });
 
-app.listen(3000, () => {
-  console.log('Example app listening on port 3000!');
+app.listen(4000, () => {
+  console.log('Example app listening on port 4000!');
 });
 
 app.use('/user', require('./routers/user'))
-
+app.use('/',require('./routers/fileupload'))
 
 
 /** 부분 인터셉터 

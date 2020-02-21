@@ -10,7 +10,10 @@ let getUser = (req: Request , res: Response) => {
   console.log(req.params)
   console.log(req.query)
   console.log(req.path)
-  res.json('getUser')
+  res.json({
+    name:'홍길동',
+    age:12
+  })
 }
 
 let createUser = (req: Request , res: Response) => {
