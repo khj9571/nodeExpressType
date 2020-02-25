@@ -1,18 +1,45 @@
 import express from 'express';
 import { json, raw, text, urlencoded } from 'body-parser'; /** post reqest body 파싱용 */
 
+
 const app = express();
 
-/**
- * 크로스 도메인
- */
-let cors = require('cors')
+/*******************************************************************
+ *  mybatis-mapper 추가
+ *******************************************************************/
+let mybatisMapper = require('mybatis-mapper');
+// Mapper Load
+mybatisMapper.createMapper(['./mapper/oracle-mapper.xml']);
 
-app.use(json());
-app.use(urlencoded({ extended: true }));
+
+/*******************************************************************
+ * 세션 추가 시작
+ *******************************************************************/
+let session = require('express-session');
+
+app.use(session({
+  secret: 'asdf123',
+  resave: false,
+  saveUninitialized: true,
+})); 
+
+
+/*******************************************************************
+ * 크로스 도메인
+ *******************************************************************/
+let cors = require('cors')
 app.use(cors());
 
-/** 전체 인터셉터 */
+/*******************************************************************
+ * body-parser
+ *******************************************************************/
+app.use(json());
+app.use(urlencoded({ extended: true }));
+
+
+/*******************************************************************
+ * global Intercepter 
+ *******************************************************************/
 app.use(function (req, res, next) {
   //인터셉터 역할 부여
   console.log('call global interFace')
@@ -20,7 +47,9 @@ app.use(function (req, res, next) {
 });
 
 
-app.get('/', (req: express.Request, res: express.Response) => {
+app.get('/', (req:any, res: express.Response) => {
+
+  req.session.name = '홍길동'
   res.send('Hello World!');
 });
 
