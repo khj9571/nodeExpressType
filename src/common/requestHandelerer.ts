@@ -12,13 +12,14 @@ oracledb.autoCommit = true;
 
 /** 공통 Request 처리 */
 let commonReqHandler = (callBack: Function) => {
-    return (req: any, res: Response) => {
+    return (req: Request, res: Response) => {
         // callBack(req,res)
         console.log('사용자 정보:', DBCONFIG.user)
         console.log('사용자 비밀번호:', DBCONFIG.password)
         console.log('커넥션 스트링:', DBCONFIG.connectString)
-        console.log('세션 정보:', req.session.name)
-
+        // console.log('세션 정보:', req.session.name)
+        console.log('Request 객체:',req)
+        
 
         oracledb.getConnection({
             user: DBCONFIG.user,
